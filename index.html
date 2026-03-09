@@ -106,9 +106,10 @@
         .hero .subtitle {
             font-size: 1.05rem;
             color: var(--dune-text-light);
-            max-width: 460px;
+            max-width: 540px;
             margin: 0 auto 3rem;
             line-height: 1.7;
+            text-align: left;
             opacity: 0;
             animation: fadeSlideUp 0.8s ease-out 0.5s forwards;
         }
@@ -247,7 +248,8 @@
         .steps .steps-intro {
             text-align: center;
             color: var(--dune-text-light);
-            margin-bottom: 3rem;
+            max-width: 540px;
+            margin: 0 auto 3rem;
             font-size: 1.05rem;
         }
 
@@ -322,6 +324,7 @@
             font-size: 0.95rem;
             color: var(--dune-text-light);
             line-height: 1.6;
+            text-align: left;
         }
 
         .step p sup {
@@ -335,6 +338,54 @@
             color: var(--dune-text-light);
             margin-top: 2rem;
             font-style: italic;
+        }
+
+        /* ========================================
+           OOK HANDIG
+           ======================================== */
+        .also {
+            background: linear-gradient(180deg, var(--sand) 0%, var(--sand-dark) 100%);
+            padding: 4rem 1.5rem;
+            position: relative;
+        }
+
+        .also::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: var(--warm-white);
+            clip-path: ellipse(55% 100% at 50% 0%);
+        }
+
+        .also-content {
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        .also h2 {
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
+            font-weight: 900;
+            color: var(--ocean-deep);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .also p {
+            color: var(--dune-text-light);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .also .also-note {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--ocean-muted);
+            margin-top: 0.5rem;
         }
 
         /* ========================================
@@ -355,14 +406,13 @@
             left: 0;
             right: 0;
             height: 50px;
-            background: var(--warm-white);
+            background: var(--sand-dark);
             clip-path: ellipse(55% 100% at 50% 0%);
         }
 
         .trust-content {
-            max-width: 560px;
+            max-width: 540px;
             margin: 0 auto;
-            text-align: center;
             position: relative;
         }
 
@@ -371,6 +421,7 @@
             font-weight: 900;
             color: var(--ocean-deep);
             margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .trust p {
@@ -612,6 +663,15 @@
         </div>
     </section>
 
+    <section class="also">
+        <div class="also-content">
+            <h2 class="reveal">Ook handig zonder automatisering</h2>
+            <p class="reveal">De app opent met een kaartje voor je eigen kenteken. Hier zet je je vaste uren per dag mee aan, en mocht je langer nodig hebben, verleng je met een betaalde parkeersessie. Die sluit naadloos aan, dus je hoeft niet meer te betalen dan nodig.</p>
+            <p class="reveal">Bezoekers meld je op dezelfde manier aan: kenteken invoeren, sessie starten, klaar.</p>
+            <p class="also-note reveal">Voor het parkeren betaal je niets aan Portier. Dat gaat gewoon zoals je gewend bent, via de website van ParkStart.</p>
+        </div>
+    </section>
+
     <section class="trust">
         <div class="trust-content">
             <h2 class="reveal">Je gegevens blijven van jou</h2>
@@ -668,7 +728,7 @@
             <div class="footer-links">
                 <a href="privacy.html">Privacybeleid</a>
             </div>
-            <p class="footer-copy">&copy; 2025 Eric-Paul Lecluse</p>
+            <p class="footer-copy">&copy; 2025 Ongelooflijk B.V.</p>
         </div>
     </footer>
 
