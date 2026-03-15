@@ -479,10 +479,51 @@
         }
 
         /* ========================================
+           TRANSPARANTIE
+           ======================================== */
+        .transparency {
+            background: linear-gradient(180deg, var(--sand) 0%, var(--sand-dark) 100%);
+            padding: 4rem 1.5rem 5rem;
+            position: relative;
+        }
+
+        .transparency::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: var(--ocean-muted);
+            clip-path: ellipse(55% 100% at 50% 0%);
+        }
+
+        .transparency-content {
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        .transparency h2 {
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
+            font-weight: 900;
+            color: var(--ocean-deep);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .transparency p {
+            color: var(--dune-text-light);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        /* ========================================
            FOOTER
            ======================================== */
         footer {
-            background: linear-gradient(180deg, var(--ocean-muted) 0%, var(--ocean-deep) 25%, var(--ocean-deep) 100%);
+            background: linear-gradient(180deg, var(--sand-dark) 0%, var(--ocean-deep) 30%, var(--ocean-deep) 100%);
             color: var(--ocean-muted);
             padding: 4.5rem 1.5rem 3rem;
             text-align: center;
@@ -713,8 +754,8 @@
         </div>
     </section>
 
-    <section class="also" style="background: linear-gradient(180deg, var(--ocean-muted) 0%, var(--sand) 100%);">
-        <div class="also-content">
+    <section class="transparency">
+        <div class="transparency-content">
             <h2 class="reveal">Waarom kost Portier geld?</h2>
             <p class="reveal">Portier is gebouwd voor een heel specifieke groep: bewoners met een eigen oprit en een auto met bluetooth, in gemeenten die ParkStart gebruiken. Dat is een kleine markt. De ontwikkeling heeft veel tijd en aandacht gekost, en die investering verdient een eerlijke prijs. Geen advertenties, geen data-verkoop, geen verborgen verdienmodel.</p>
 
