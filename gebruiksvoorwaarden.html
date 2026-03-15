@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gebruiksvoorwaarden — Portier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900&family=Sora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sand: #F5F0EB;
+            --sand-dark: #E8DFD4;
+            --ocean-deep: #1B4B5A;
+            --ocean-muted: #6B9DAD;
+            --ocean-light: #E3EEF2;
+            --dune-text: #2C2417;
+            --dune-text-light: #6B5D4F;
+            --accent: #D4703C;
+            --accent-hover: #B85C2F;
+            --warm-white: #FEFCF9;
+            --sand-deep: #DDD5C8;
+            --ocean-pale: #D0E2EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            color: var(--dune-text);
+            font-size: 16px;
+            line-height: 1.6;
+            background: var(--sand);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2 {
+            font-family: 'Fraunces', serif;
+            font-optical-sizing: auto;
+            color: var(--ocean-deep);
+        }
+
+        main {
+            flex: 1;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--ocean-muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .back:hover {
+            color: var(--ocean-deep);
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+        }
+
+        .updated {
+            font-size: 0.9rem;
+            color: var(--dune-text-light);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 2rem 0 0.6rem;
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: var(--dune-text-light);
+        }
+
+        ul {
+            margin: 0 0 1rem 1.5rem;
+            color: var(--dune-text-light);
+            line-height: 1.7;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        a:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 2px;
+        }
+
+        footer {
+            background: var(--ocean-deep);
+            color: var(--ocean-muted);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--sand-dark);
+        }
+
+        footer a:hover {
+            color: var(--warm-white);
+        }
+
+        footer a:focus-visible {
+            outline-color: var(--sand);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="index.html" class="back">&larr; Terug</a>
+        <h1>Gebruiksvoorwaarden</h1>
+
+        <p class="updated">Laatst bijgewerkt: 15 maart 2026</p>
+
+        <p>Deze gebruiksvoorwaarden gelden voor de Portier app ("de app"), ontwikkeld en
+           aangeboden door Ongelooflijk B.V. ("wij", "ons"), gevestigd in Zandvoort, Nederland.
+           Door de app te downloaden of te gebruiken ga je akkoord met deze voorwaarden.</p>
+
+        <h2>Wat Portier doet</h2>
+        <p>Portier is een hulpmiddel voor het starten en stoppen van parkeersessies via
+           het portaal van je gemeente (parkpermit.eu). De app communiceert rechtstreeks
+           met dat portaal namens jou. Wij beheren dat portaal niet en hebben geen
+           invloed op de werking ervan.</p>
+
+        <h2>Jouw verantwoordelijkheid</h2>
+        <p>Portier doet zijn best om parkeersessies betrouwbaar te starten en te stoppen,
+           en stuurt notificaties om je te informeren. Maar techniek is niet onfeilbaar.
+           Een parkeeractie kan mislukken door een storing bij parkpermit.eu, een
+           captcha-controle, een netwerkprobleem, of een andere technische oorzaak.</p>
+        <p>Je blijft zelf verantwoordelijk voor het correct parkeren van je voertuig.
+           Controleer altijd of je parkeeractie daadwerkelijk is gestart voordat je
+           wegloopt bij je auto. Bij twijfel kun je dit verifi&euml;ren via de app of
+           via parkpermit.eu.</p>
+
+        <h2>Beschikbaarheid</h2>
+        <p>Portier is afhankelijk van de API van parkpermit.eu. Wanneer die API verandert
+           of tijdelijk niet beschikbaar is, kan de app geheel of gedeeltelijk buiten
+           werking zijn. Wij doen ons best om de app zo snel mogelijk bij te werken,
+           maar kunnen geen garantie geven op ononderbroken beschikbaarheid.</p>
+
+        <h2>Aansprakelijkheid</h2>
+        <p>Wij zijn niet aansprakelijk voor schade die ontstaat door het gebruik van de
+           app, waaronder parkeerboetes als gevolg van een niet-gestarte of niet-gestopte
+           parkeeractie. De app wordt aangeboden "zoals deze is", zonder enige garantie
+           op foutloze werking.</p>
+        <p>De maximale aansprakelijkheid van Ongelooflijk B.V. is in alle gevallen beperkt
+           tot het bedrag dat je hebt betaald voor de app.</p>
+
+        <h2>Licentie</h2>
+        <p>Wij verlenen je een persoonlijk, niet-overdraagbaar recht om de app te
+           gebruiken op Apple-apparaten die je bezit of beheert, conform de
+           gebruiksregels van de Apple Media Services. Bij gezinsdelingen of
+           volume-aankopen mogen meerdere gebruikers de app gebruiken.</p>
+
+        <h2>Onderhoud en support</h2>
+        <p>Wij verzorgen het onderhoud en de ondersteuning van de app. Apple heeft
+           hierin geen enkele verplichting. Voor vragen of problemen kun je contact
+           met ons opnemen via de gegevens onderaan deze pagina.</p>
+
+        <h2>Garantie</h2>
+        <p>Als de app niet functioneert zoals beschreven, kun je Apple informeren
+           en een terugbetaling van de aankoopprijs ontvangen. Apple heeft geen
+           verdere garantieverplichtingen met betrekking tot de app.</p>
+
+        <h2>Intellectueel eigendom</h2>
+        <p>Bij een claim van een derde partij dat de app inbreuk maakt op
+           intellectuele eigendomsrechten, zijn wij (niet Apple) verantwoordelijk
+           voor het onderzoeken, verdedigen en oplossen van die claim.</p>
+
+        <h2>Exportregelgeving</h2>
+        <p>Je bevestigt dat je je niet bevindt in een land dat onderworpen is
+           aan een embargo van de Verenigde Staten, en dat je niet voorkomt op
+           een lijst van verboden of beperkte partijen van de Amerikaanse overheid.</p>
+
+        <h2>Externe diensten</h2>
+        <p>De app maakt gebruik van parkpermit.eu. Je dient je te houden aan
+           de voorwaarden van die dienst wanneer je de app gebruikt.</p>
+
+        <h2>Apple als derde begunstigde</h2>
+        <p>Apple en haar dochterondernemingen zijn derde begunstigden van deze
+           overeenkomst. Na jouw aanvaarding van deze voorwaarden heeft Apple het
+           recht om deze overeenkomst als derde begunstigde jegens jou af te dwingen.</p>
+
+        <h2>Contact</h2>
+        <p>Ongelooflijk B.V.<br>
+           Zandvoort, Nederland<br>
+           <a href="mailto:portier@lecluse.org">portier@lecluse.org</a></p>
+
+    </main>
+    <footer>
+        &copy; 2026 Ongelooflijk B.V.
+    </footer>
+</body>
+</html>
