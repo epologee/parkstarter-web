@@ -82,6 +82,7 @@
 <body>
     <h1>OG Preview</h1>
     <p class="subtitle">Fetch en preview Open Graph metadata. Geen cache, altijd vers.</p>
+    <p id="fetchTime" class="subtitle hidden"></p>
 
     <div class="input-row">
         <input type="url" id="urlInput" value="https://portierapp.nl" placeholder="https://...">
@@ -141,6 +142,11 @@
                     renderPreview(tags);
                     renderChecklist(tags);
                     results.classList.remove('hidden');
+                    var now = new Date();
+                    var timeStr = now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    var fetchTimeEl = document.getElementById('fetchTime');
+                    fetchTimeEl.textContent = 'Opgehaald om ' + timeStr;
+                    fetchTimeEl.classList.remove('hidden');
                 })
                 .catch(function(err) {
                     errorEl.textContent = 'Kon de pagina niet ophalen: ' + err.message;
@@ -198,7 +204,8 @@
             var img = document.getElementById('previewImage');
             var imgMissing = document.getElementById('previewImageMissing');
             if (t.ogImage) {
-                img.src = t.ogImage;
+                var sep = t.ogImage.indexOf('?') === -1 ? '?' : '&';
+                img.src = t.ogImage + sep + 't=' + Date.now();
                 img.classList.remove('hidden');
                 imgMissing.classList.add('hidden');
             } else {
@@ -207,7 +214,15 @@
             }
             var host = '';
             try { host = new URL(t.url).hostname; } catch(e) {}
-            document.getElementById('previewSite').textContent = (t.ogSiteName || host).toUpperCase();
+            var siteEl = document.getElementById('previewSite');
+            var faviconUrl = t.favicon;
+            if (faviconUrl) {
+                if (faviconUrl.startsWith('/')) faviconUrl = new URL(t.url).origin + faviconUrl;
+                var sep2 = faviconUrl.indexOf('?') === -1 ? '?' : '&';
+                siteEl.innerHTML = '<img src="' + faviconUrl + sep2 + 't=' + Date.now() + '" style="width:14px;height:14px;vertical-align:-1px;margin-right:4px;border-radius:2px" alt="">' + (t.ogSiteName || host).toUpperCase();
+            } else {
+                siteEl.textContent = (t.ogSiteName || host).toUpperCase();
+            }
             document.getElementById('previewTitle').textContent = t.ogTitle || t.title || '';
             document.getElementById('previewDesc').textContent = t.ogDescription || t.description || '';
         }
