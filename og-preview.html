@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>OG Preview — Portier</title>
+    <link rel="icon" href="favicon.ico" sizes="16x16 32x32">
+    <style>
+        :root {
+            --sand: #F5F0EB;
+            --ocean-deep: #1B4B5A;
+            --dune-text: #2C2417;
+            --dune-text-light: #6B5D4F;
+            --accent: #AD5B2D;
+            --green: #2D8A4E;
+            --red: #C0392B;
+            --warm-white: #FEFCF9;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--sand);
+            color: var(--dune-text);
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--ocean-deep); }
+        .subtitle { color: var(--dune-text-light); margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .input-row {
+            display: flex; gap: 0.5rem; margin-bottom: 2rem;
+        }
+        input[type="url"] {
+            flex: 1; padding: 0.75rem 1rem; border: 2px solid #ddd;
+            border-radius: 8px; font-size: 1rem; font-family: inherit;
+        }
+        input[type="url"]:focus { outline: none; border-color: var(--ocean-deep); }
+        button {
+            padding: 0.75rem 1.5rem; background: var(--ocean-deep); color: white;
+            border: none; border-radius: 8px; font-size: 1rem; cursor: pointer;
+            font-family: inherit; white-space: nowrap;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled { opacity: 0.5; cursor: wait; }
+        .preview-card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;
+        }
+        .preview-image {
+            width: 100%; aspect-ratio: 1200/630; object-fit: cover;
+            background: #e0e0e0; display: block;
+        }
+        .preview-image.missing {
+            display: flex; align-items: center; justify-content: center;
+            color: var(--red); font-size: 0.9rem;
+        }
+        .preview-body { padding: 1rem; }
+        .preview-site { font-size: 0.75rem; color: var(--dune-text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+        .preview-title { font-size: 1rem; font-weight: 600; margin: 0.25rem 0; line-height: 1.3; }
+        .preview-desc { font-size: 0.85rem; color: var(--dune-text-light); line-height: 1.4; }
+        .checklist { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .checklist h2 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--ocean-deep); }
+        .check-item {
+            display: flex; align-items: flex-start; gap: 0.5rem;
+            padding: 0.4rem 0; font-size: 0.85rem; line-height: 1.4;
+        }
+        .check-icon { flex-shrink: 0; width: 1.2em; text-align: center; }
+        .check-pass .check-icon { color: var(--green); }
+        .check-fail .check-icon { color: var(--red); }
+        .check-value { color: var(--dune-text-light); font-size: 0.8rem; margin-left: 1.7em; word-break: break-all; }
+        .check-group { margin-bottom: 1rem; }
+        .check-group-title { font-weight: 600; font-size: 0.8rem; color: var(--dune-text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+        .loading { text-align: center; padding: 3rem; color: var(--dune-text-light); }
+        .error { background: #fdeaea; color: var(--red); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+        .hidden { display: none; }
+        .char-count { font-size: 0.75rem; color: var(--dune-text-light); }
+        .char-warn { color: var(--accent); }
+        .char-ok { color: var(--green); }
+    </style>
+</head>
+<body>
+    <h1>OG Preview</h1>
+    <p class="subtitle">Fetch en preview Open Graph metadata. Geen cache, altijd vers.</p>
+
+    <div class="input-row">
+        <input type="url" id="urlInput" value="https://portierapp.nl" placeholder="https://...">
+        <button id="fetchBtn" onclick="fetchOG()">Preview</button>
+    </div>
+
+    <div id="error" class="error hidden"></div>
+    <div id="loading" class="loading hidden">Ophalen...</div>
+
+    <div id="results" class="hidden">
+        <div class="preview-card">
+            <img id="previewImage" class="preview-image" alt="">
+            <div id="previewImageMissing" class="preview-image missing hidden">Geen og:image gevonden</div>
+            <div class="preview-body">
+                <div id="previewSite" class="preview-site"></div>
+                <div id="previewTitle" class="preview-title"></div>
+                <div id="previewDesc" class="preview-desc"></div>
+            </div>
+        </div>
+
+        <div class="checklist">
+            <h2>Metadata checklist</h2>
+            <div id="checklistContent"></div>
+        </div>
+    </div>
+
+    <script>
+        var urlInput = document.getElementById('urlInput');
+        urlInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') fetchOG();
+        });
+
+        function fetchOG() {
+            var url = urlInput.value.trim();
+            if (!url) return;
+
+            var btn = document.getElementById('fetchBtn');
+            var loading = document.getElementById('loading');
+            var results = document.getElementById('results');
+            var errorEl = document.getElementById('error');
+
+            btn.disabled = true;
+            loading.classList.remove('hidden');
+            results.classList.add('hidden');
+            errorEl.classList.add('hidden');
+
+            var sameOrigin = false;
+            try { sameOrigin = new URL(url).origin === location.origin; } catch(e) {}
+
+            var fetchUrl = sameOrigin ? url : 'https://corsproxy.io/?' + encodeURIComponent(url);
+
+            fetch(fetchUrl, { cache: 'no-store' })
+                .then(function(r) { return r.text(); })
+                .then(function(html) {
+                    var doc = new DOMParser().parseFromString(html, 'text/html');
+                    var tags = extractTags(doc, url);
+                    renderPreview(tags);
+                    renderChecklist(tags);
+                    results.classList.remove('hidden');
+                })
+                .catch(function(err) {
+                    errorEl.textContent = 'Kon de pagina niet ophalen: ' + err.message;
+                    errorEl.classList.remove('hidden');
+                })
+                .finally(function() {
+                    btn.disabled = false;
+                    loading.classList.add('hidden');
+                });
+        }
+
+        function getMeta(doc, selectors) {
+            for (var i = 0; i < selectors.length; i++) {
+                var el = doc.querySelector(selectors[i]);
+                if (el) return el.getAttribute('content');
+            }
+            return null;
+        }
+
+        function extractTags(doc, url) {
+            var origin = '';
+            try { origin = new URL(url).origin; } catch(e) {}
+            var ogImage = getMeta(doc, ['meta[property="og:image"]']);
+            if (ogImage && ogImage.startsWith('/')) ogImage = origin + ogImage;
+
+            return {
+                title: doc.querySelector('title') ? doc.querySelector('title').textContent : null,
+                description: getMeta(doc, ['meta[name="description"]']),
+                ogTitle: getMeta(doc, ['meta[property="og:title"]']),
+                ogDescription: getMeta(doc, ['meta[property="og:description"]']),
+                ogImage: ogImage,
+                ogImageWidth: getMeta(doc, ['meta[property="og:image:width"]']),
+                ogImageHeight: getMeta(doc, ['meta[property="og:image:height"]']),
+                ogImageType: getMeta(doc, ['meta[property="og:image:type"]']),
+                ogImageAlt: getMeta(doc, ['meta[property="og:image:alt"]']),
+                ogType: getMeta(doc, ['meta[property="og:type"]']),
+                ogUrl: getMeta(doc, ['meta[property="og:url"]']),
+                ogLocale: getMeta(doc, ['meta[property="og:locale"]']),
+                ogSiteName: getMeta(doc, ['meta[property="og:site_name"]']),
+                twitterCard: getMeta(doc, ['meta[name="twitter:card"]']),
+                twitterTitle: getMeta(doc, ['meta[name="twitter:title"]']),
+                twitterDescription: getMeta(doc, ['meta[name="twitter:description"]']),
+                twitterImage: getMeta(doc, ['meta[name="twitter:image"]']),
+                twitterImageAlt: getMeta(doc, ['meta[name="twitter:image:alt"]']),
+                canonical: doc.querySelector('link[rel="canonical"]') ? doc.querySelector('link[rel="canonical"]').getAttribute('href') : null,
+                themeColor: getMeta(doc, ['meta[name="theme-color"]']),
+                jsonLd: doc.querySelector('script[type="application/ld+json"]') ? true : null,
+                favicon: doc.querySelector('link[rel="icon"]') ? doc.querySelector('link[rel="icon"]').getAttribute('href') : null,
+                appleTouchIcon: doc.querySelector('link[rel="apple-touch-icon"]') ? doc.querySelector('link[rel="apple-touch-icon"]').getAttribute('href') : null,
+                url: url
+            };
+        }
+
+        function renderPreview(t) {
+            var img = document.getElementById('previewImage');
+            var imgMissing = document.getElementById('previewImageMissing');
+            if (t.ogImage) {
+                img.src = t.ogImage;
+                img.classList.remove('hidden');
+                imgMissing.classList.add('hidden');
+            } else {
+                img.classList.add('hidden');
+                imgMissing.classList.remove('hidden');
+            }
+            var host = '';
+            try { host = new URL(t.url).hostname; } catch(e) {}
+            document.getElementById('previewSite').textContent = (t.ogSiteName || host).toUpperCase();
+            document.getElementById('previewTitle').textContent = t.ogTitle || t.title || '';
+            document.getElementById('previewDesc').textContent = t.ogDescription || t.description || '';
+        }
+
+        function charInfo(value, min, max) {
+            if (!value) return '';
+            var len = value.length;
+            var cls = (len >= min && len <= max) ? 'char-ok' : 'char-warn';
+            return ' <span class="char-count ' + cls + '">(' + len + ' chars, optimaal ' + min + '-' + max + ')</span>';
+        }
+
+        function renderChecklist(t) {
+            var checks = [
+                { group: 'Essentieel', items: [
+                    { name: 'og:title', value: t.ogTitle, extra: charInfo(t.ogTitle, 50, 60) },
+                    { name: 'og:description', value: t.ogDescription, extra: charInfo(t.ogDescription, 55, 200) },
+                    { name: 'og:image', value: t.ogImage },
+                    { name: 'og:url', value: t.ogUrl },
+                    { name: 'og:type', value: t.ogType },
+                ]},
+                { group: 'Aanbevolen', items: [
+                    { name: 'og:locale', value: t.ogLocale },
+                    { name: 'og:site_name', value: t.ogSiteName },
+                    { name: 'og:image:width', value: t.ogImageWidth },
+                    { name: 'og:image:height', value: t.ogImageHeight },
+                    { name: 'og:image:type', value: t.ogImageType },
+                    { name: 'og:image:alt', value: t.ogImageAlt },
+                ]},
+                { group: 'Twitter', items: [
+                    { name: 'twitter:card', value: t.twitterCard },
+                    { name: 'twitter:title', value: t.twitterTitle },
+                    { name: 'twitter:description', value: t.twitterDescription },
+                    { name: 'twitter:image', value: t.twitterImage },
+                    { name: 'twitter:image:alt', value: t.twitterImageAlt },
+                ]},
+                { group: 'SEO & Overig', items: [
+                    { name: 'title', value: t.title, extra: charInfo(t.title, 50, 60) },
+                    { name: 'meta description', value: t.description, extra: charInfo(t.description, 150, 160) },
+                    { name: 'canonical', value: t.canonical },
+                    { name: 'theme-color', value: t.themeColor },
+                    { name: 'JSON-LD', value: t.jsonLd ? 'aanwezig' : null },
+                    { name: 'favicon', value: t.favicon },
+                    { name: 'apple-touch-icon', value: t.appleTouchIcon },
+                ]}
+            ];
+
+            var html = '';
+            checks.forEach(function(group) {
+                html += '<div class="check-group"><div class="check-group-title">' + group.group + '</div>';
+                group.items.forEach(function(item) {
+                    var pass = !!item.value;
+                    var cls = pass ? 'check-pass' : 'check-fail';
+                    var icon = pass ? '\u2713' : '\u2717';
+                    html += '<div class="check-item ' + cls + '">';
+                    html += '<span class="check-icon">' + icon + '</span>';
+                    html += '<span>' + item.name + (item.extra || '') + '</span>';
+                    html += '</div>';
+                    if (pass && item.value !== true && item.value !== 'aanwezig') {
+                        var display = item.value.length > 120 ? item.value.substring(0, 120) + '...' : item.value;
+                        html += '<div class="check-value">' + display + '</div>';
+                    }
+                });
+                html += '</div>';
+            });
+
+            document.getElementById('checklistContent').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
