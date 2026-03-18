@@ -104,9 +104,12 @@
         .app-store-badge {
             display: inline-block;
             margin-bottom: 2.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .hero .app-store-badge {
             opacity: 0;
             animation: fadeSlideUp 0.8s ease-out 0.6s forwards;
-            transition: transform 0.2s ease;
         }
 
         .app-store-badge:hover {
@@ -446,7 +449,7 @@
            TWEEDE CTA
            ======================================== */
         .cta-bottom {
-            background: var(--ocean-deep);
+            background: linear-gradient(180deg, var(--ocean-muted) 0%, var(--ocean-deep) 100%);
             padding: 3rem 1.5rem 4rem;
             text-align: center;
         }
@@ -459,7 +462,7 @@
         }
 
         .cta-bottom p {
-            color: var(--ocean-muted);
+            color: var(--sand-dark);
             font-size: 1rem;
             margin-bottom: 2rem;
         }
@@ -529,7 +532,7 @@
         <div class="hero-content">
             <h1>Portier</h1>
             <p class="tagline">Aanmelden voor parkeren in je eigen gemeente?<br>Portier regelt het voor je, <em>automatisch.</em></p>
-            <p class="subtitle">Elke keer vergeten je parkeersessie aan te melden? Met Portier hoef je er niet meer aan te denken: de app meldt je sessie automatisch aan zodra je wegloopt bij je auto — zolang die bluetooth heeft. Bezoekers meld je aan met gemak.</p>
+            <p class="subtitle">Vergeet je steeds je parkeersessie aan te melden? Met Portier hoef je er niet meer aan te denken: de app meldt je sessie automatisch aan zodra je wegloopt bij je auto. Bezoekers meld je aan met gemak.</p>
 
             <!-- TODO: vervang # door de echte App Store URL -->
             <a href="#" class="app-store-badge" aria-label="Download on the App Store">
@@ -556,7 +559,7 @@
                         </svg>
                     </div>
                     <h3>1. Log in met ParkStart</h3>
-                    <p>Vul je inloggegevens in. Veilig opgeslagen op je iPhone, alleen gebruikt bij het ParkStart portaal (parkpermit.eu).</p>
+                    <p>Vul je inloggegevens in voor ParkStart, het parkeerportaal van je gemeente. Veilig opgeslagen op je iPhone.</p>
                 </div>
 
                 <div class="step reveal reveal-delay-2">
@@ -569,7 +572,7 @@
                     </div>
                     <h3>2. Installeer de shortcut</h3>
                     <!-- TODO: voeg link toe naar de Apple Shortcut download -->
-                    <p>Via de Opdrachten app — standaard op elke iPhone — geef je aan waar je auto thuis staat en in welke zone je moet aanmelden.</p>
+                    <p>Via de Opdrachten app (standaard op elke iPhone) geef je aan waar je auto thuis staat en in welke zone je moet aanmelden.</p>
                 </div>
 
                 <div class="step reveal reveal-delay-3">
@@ -593,7 +596,7 @@
             <h2 class="reveal">Handmatig ook zo geregeld</h2>
             <p class="reveal">De app opent direct met je eigen kenteken. Sessie starten kost twee tikken. Langer nodig? Verleng met een betaalde sessie die precies aansluit, zodat je niet meer betaalt dan nodig.</p>
             <p class="reveal">Bezoekers meld je op dezelfde manier aan: kenteken invoeren, sessie starten, klaar.</p>
-            <p class="also-note reveal">ParkStart is het parkeerportaal van je gemeente. Portier is een app die dat portaal namens jou bedient. Voor het parkeren zelf betaal je niets aan Portier — dat gaat gewoon via ParkStart, zoals je gewend bent.</p>
+            <p class="also-note reveal">ParkStart is het parkeerportaal van je gemeente. Portier is een app die dat portaal namens jou bedient. Voor het parkeren zelf betaal je niets aan Portier. Dat gaat gewoon via ParkStart, zoals je gewend bent.</p>
         </div>
     </section>
 
@@ -662,9 +665,9 @@
         <div class="requirements-content">
             <h2 class="reveal">Wat heb je nodig?</h2>
             <ul class="requirements-list">
-                <li class="reveal">Een iPhone met iOS 16 of nieuwer</li>
-                <li class="reveal">Een auto met bluetooth (bijv. voor muziek) — zodat je iPhone weet wanneer je wegrijdt</li>
-                <li class="reveal">Een parkeervergunning in een gemeente die ParkStart (parkpermit.eu) gebruikt — waaronder Zandvoort</li>
+                <li class="reveal reveal-delay-1">Een iPhone met iOS 26 of nieuwer</li>
+                <li class="reveal reveal-delay-2">Een auto met bluetooth (voor muziek, handsfree, etc.), zodat je iPhone merkt wanneer je uitstapt</li>
+                <li class="reveal reveal-delay-3">Een parkeervergunning in een gemeente die ParkStart (parkpermit.eu) gebruikt, waaronder Zandvoort</li>
             </ul>
         </div>
     </section>
